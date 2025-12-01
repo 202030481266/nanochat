@@ -1,7 +1,54 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Rust
 rustbpe/target/
+**/*.rs.bk
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Project specific
 dev-ignore/
 report.md
 eval_bundle/
+
+# Data and models
+*.pth
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+*.h5
+*.hdf5
+
+# Logs and outputs
+logs/
+wandb/
+mlruns/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Cache
+.cache/
+*.cache
