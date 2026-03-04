@@ -6,6 +6,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 nanochat is a full-stack LLM training framework designed to create ChatGPT-like models on a budget ($100-$1000). It's a Python-based machine learning project that implements the complete pipeline: tokenization, pretraining, fine-tuning (SFT), reinforcement learning, evaluation, and web serving.
 
+## Quick Start
+
+```bash
+# Train the $100 tier (d20 model, ~4 hours on 8XH100)
+bash speedrun.sh
+
+# After training, start the web UI
+python -m scripts.chat_web
+```
+
+The training generates a `report.md` file with evaluation metrics (CORE score, ARC, GSM8K, HumanEval, MMLU, ChatCORE).
+
+### Model Tiers
+
+- **$100 tier** (d20): 4 hours training, default in `speedrun.sh`
+- **$300 tier** (d26): ~12 hours, set `--depth=26` and download 450 data shards
+- **$800 tier** (d32): ~33 hours, see `run1000.sh`
+
 ## Key Architecture
 
 ### Pipeline Stages
@@ -132,6 +150,9 @@ To train larger models (e.g., d26 for ~$300 tier):
 ### Custom Identity/Personality
 See `dev/gen_synthetic_data.py` for example synthetic data generation. Custom conversations can be mixed into midtraining and SFT stages via `--identity_data_path`.
 
+### Adding New Abilities
+To teach the model new skills (e.g., counting letters in words), see the "counting r in strawberry" discussion for general guidance on adding abilities.
+
 ## Key Design Principles
 
 1. **Minimalism**: Single cohesive codebase, no giant configuration objects
@@ -148,6 +169,8 @@ See `dev/gen_synthetic_data.py` for example synthetic data generation. Custom co
 - Intermediate artifacts stored in `~/.cache/nanochat/`
 - Final report generated as `report.md` with evaluation metrics
 - WandB logging optional (set `WANDB_RUN` environment variable)
+- If OOM, reduce `--device_batch_size` (default 32 → 16 → 8 → 4 → 2 → 1)
+- Code auto-switches to gradient accumulation when running on fewer GPUs
 
 ## File Structure Reference
 
